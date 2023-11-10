@@ -16,6 +16,7 @@ class bunny(Entity):
         self.hunger_drive = hunger_drive # scale value used to determine how fast a bunny will get hungry
         self.hunger_threshhold = 30 # threshold used to determine when bunny will start looking for food
         self.target_position = Vec3(self.rand_x, self.rand_y, self.rand_z)
+        self.at_current_target = False
         self.hunger_level = 100
         self.speed = speed
         self.fertility = fertility # used to determine how many offspring a bunny will produce
@@ -34,6 +35,17 @@ class bunny(Entity):
         self.MoveToLocation(self.target_position, self.speed)
         self.text.position = (self.scale_x, self.scale_y + 2)
 
+        if self.at_current_target:
+            self.at_current_target = False
+            self.GenerateRandomLocation()
+            self.MoveToLocation(self.target_position, 3)
+
+    def GenerateRandomLocation(self):
+        self.rand_x = random.randrange(-50, 50)
+        self.rand_y = random.randrange(-50, 50)
+        self.rand_z = random.randrange(-50, 50)
+        self.target_position = Vec3(self.rand_x, self.rand_y, self.rand_z)
+        
     def MoveToLocation(self, target, speed):
         self.look_at(target)
         direction_vector = target - self.position
@@ -43,6 +55,7 @@ class bunny(Entity):
 
         if distance < speed * time.dt:
             self.position = target
+            self.at_current_target = True
 
     def RotateBunny(self, rotation_y, rotation_x):
         self.rotation_y = self.rotation_y + rotation_y
