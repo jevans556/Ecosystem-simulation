@@ -10,5 +10,11 @@ class food(Entity):
             color=color.orange
         )
 
-    def DeleteFood():
+    def GetXPosition(self):
+        return self.x
+
+    def GetYPosition(self):
+        return self.y
+        
+    def DeleteFood(self):
         self.disable

@@ -29,6 +29,6 @@ for x in range(num_food):
 def update():
 
     for bunny in bunny_population:
-        bunny.DetermineAction(bunny_population)
+        bunny.DetermineAction(bunny_population, food_list)
 
 app.run()
