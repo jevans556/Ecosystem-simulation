@@ -15,6 +15,6 @@ class food(Entity):
 
     def GetYPosition(self):
         return self.y
-        
+
     def DeleteFood(self):
-        self.disable
+        self.disable()
