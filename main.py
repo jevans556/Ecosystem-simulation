@@ -5,15 +5,15 @@ import random
 
 app = Ursina()
 EditorCamera()
-num_bunnies = 8
-num_food = 10
+num_bunnies = 10
+num_food = 4
 bunny_population = []
 food_list = []
 
 for x in range(num_bunnies):
     x_pos = random.randrange(-10,10)
     y_pos = random.randrange(-10, 10)
-    hunger_drive = random.randrange(0, 10)
+    hunger_drive = random.randrange(1, 10)
     speed = random.randrange(0, 10)
     fertility = random.randrange(0, 10)
     reproductive_urge = random.randrange(0, 10)
@@ -30,5 +30,6 @@ def update():
 
     for bunny in bunny_population:
         bunny.DetermineAction(bunny_population, food_list)
+
 
 app.run()

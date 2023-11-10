@@ -15,6 +15,7 @@ class bunny(Entity):
         self.rand_z = random.randrange(-50, 50)
         self.hunger_drive = hunger_drive # scale value used to determine how fast a bunny will get hungry
         self.hunger_threshhold = 30 # threshold used to determine when bunny will start looking for food
+        self.looking_for_food = False
         self.target_position = Vec3(self.rand_x, self.rand_y, self.rand_z)
         self.at_current_target = False
         self.hunger_level = 100
@@ -32,10 +33,27 @@ class bunny(Entity):
         #need to update hunger and reproductive urge levels and check to see if they are below the specified
         #threshold. If either are below the threshold, then make the bunny find food/available mate and update
         #levels accordingly. Use the target position parameter to make the bunny move to particular location
+        self.UpdateHungerLevel()
+
+        if self.hunger_level < self.hunger_threshhold:
+            self.looking_for_food = True
+            food_index = self.FindFood(food)
+
         self.MoveToLocation(self.target_position, self.speed)
         self.text.position = (self.scale_x, self.scale_y + 2)
 
         if self.at_current_target:
+            if self.looking_for_food:
+                if food:
+                    food[food_index].DeleteFood()
+                    del food[food_index]
+                    self.hunger_level = 100
+                    self.looking_for_food = False
+
+            if self.looking_for_mate:
+                self.reproductive_urge = 100
+                self.looking_for_mate = False
+
             self.at_current_target = False
             self.GenerateRandomLocation()
             self.MoveToLocation(self.target_position, 3)
@@ -61,13 +79,30 @@ class bunny(Entity):
         self.rotation_y = self.rotation_y + rotation_y
         self.rotation_x = self.rotation_x + rotation_x
 
-    def UpdateHungerLevel():
-        #TODO logic to update hunger level
-        pass
+    def UpdateHungerLevel(self):
+        if self.hunger_level < 0:
+            self.DespawnBunny()
+            return
 
-    def FindFood(self):
-        #TODO logic to find food goes here
-        pass
+        self.hunger_level -=  self.hunger_drive * 0.01
+
+    def FindFood(self, food):
+        nearest_distance = Vec3(100000, 100000, 100000)
+        self.at_current_target = False
+        food_index = None
+        if food == None:
+            self.GenerateRandomLocation()
+            return
+
+        for i, food in enumerate(food):
+            current_distance = Vec3(self.position - food.position).length()
+            if current_distance < nearest_distance:
+                nearest_distance = current_distance
+                self.target_position = food.position
+                food_index = i
+
+        #self.MoveToLocation(self.target_position, self.speed)
+        return food_index
 
     def UpdateReproductiveUrge():
         #TODO logic to update bunny lust
