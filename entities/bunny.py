@@ -41,10 +41,10 @@ class bunny(Entity):
             food_index = self.FindFood(food)
 
         #Currently, bunnies will not search for a mate if they are starving. This is open to change.
-        if self.horniness_level < self.reproductive_threshold
+        if self.horniness_level < self.reproductive_threshold:
             self.looking_for_mate = True
 
-        if self.looking_for_food
+        if self.looking_for_food:
             self.looking_for_mate = False
 
         self.MoveToLocation(self.target_position, self.speed)
@@ -113,9 +113,9 @@ class bunny(Entity):
         return food_index
 
     def UpdateReproductiveUrge():
-        if self.horniness_level >= (self.reproductive_urge * 0.01)
+        if self.horniness_level >= (self.reproductive_urge * 0.01):
             self.horniness_level -= self.reproductive_urge * 0.01
-        else
+        else:
             self.horniness_level = 0
         
         return
