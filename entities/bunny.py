@@ -34,10 +34,18 @@ class bunny(Entity):
         #threshold. If either are below the threshold, then make the bunny find food/available mate and update
         #levels accordingly. Use the target position parameter to make the bunny move to particular location
         self.UpdateHungerLevel()
+        self.UpdateReproductiveUrge()
 
         if self.hunger_level < self.hunger_threshhold:
             self.looking_for_food = True
             food_index = self.FindFood(food)
+
+        #Currently, bunnies will not search for a mate if they are starving. This is open to change.
+        if self.horniness_level < self.reproductive_threshold:
+            self.looking_for_mate = True
+
+        if self.looking_for_food:
+            self.looking_for_mate = False
 
         self.MoveToLocation(self.target_position, self.speed)
         self.text.position = (self.scale_x, self.scale_y + 2)
@@ -105,12 +113,17 @@ class bunny(Entity):
         return food_index
 
     def UpdateReproductiveUrge():
-        #TODO logic to update bunny lust
-        pass
+        if self.horniness_level >= (self.reproductive_urge * 0.01):
+            self.horniness_level -= self.reproductive_urge * 0.01
+        else:
+            self.horniness_level = 0
+        
+        return
 
     def FindMate(self):
         #TODO program NSFW bunny desires here
         pass
+        
     def DespawnBunny(self):
         self.disable()
 
