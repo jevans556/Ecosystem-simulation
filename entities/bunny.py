@@ -112,7 +112,7 @@ class bunny(Entity):
         #self.MoveToLocation(self.target_position, self.speed)
         return food_index
 
-    def UpdateReproductiveUrge():
+    def UpdateReproductiveUrge(self):
         if self.horniness_level >= (self.reproductive_urge * 0.01):
             self.horniness_level -= self.reproductive_urge * 0.01
         else:
