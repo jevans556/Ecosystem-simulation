@@ -46,7 +46,10 @@ class bunny(Entity):
 
         if self.looking_for_food:
             self.looking_for_mate = False
-
+            
+        if self.looking_for_mate:
+            self.FindMate(bunny_population)
+            
         self.MoveToLocation(self.target_position, self.speed)
         self.text.position = (self.scale_x, self.scale_y + 2)
 
@@ -120,9 +123,24 @@ class bunny(Entity):
         
         return
 
-    def FindMate(self):
-        #TODO program NSFW bunny desires here
-        pass
+    def FindMate(self, bunny_population):
+        nearest_distance = float('inf')
+        potential_mate = None
+
+        for bunny in bunny_population:
+            if bunny != self and bunny.looking_for_mate:
+                distance = (bunny.position - self.position).length()
+                if distance < nearest_distance:
+                    nearest_distance = distance
+                    potential_mate = bunny
+        
+        #If we're going to calculate movement in DetermineAction()
+        #Then this needs to be changed to only return potential_mate.position
+        if potential_mate:
+            self.MoveToLocation(potential_mate.position, self.speed)
+            if nearest_distance < 1:
+                #TODO add call to reproductive function
+                pass
         
     def DespawnBunny(self):
         self.disable()
