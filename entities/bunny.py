@@ -6,9 +6,11 @@ class bunny(Entity):
     def __init__(self, x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge):
         super().__init__(
             #define Entity parameters here. Entity parameters can then be accessed with self.<Entity Parameter>
-            model="models/dragon.obj",
+            model="models/rabbit.obj",
+            color=color.brown,
+            texture="textures/basic1.png",
             position=(x_pos, y_pos, 0),
-            scale = 0.25
+            scale = 0.025
         )
         self.rand_x = random.randrange(-50, 50)
         self.rand_y = random.randrange(-50, 50)
