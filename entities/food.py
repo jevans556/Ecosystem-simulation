@@ -7,6 +7,7 @@ class food(Entity):
             model="models/carrot.obj",
             position=(x_pos, y_pos, 0),
             scale=0.4,
+            texture="textures/carrot_textures/Carrot_Texture.png",
             color=color.orange
         )
 
