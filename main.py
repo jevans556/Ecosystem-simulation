@@ -1,5 +1,6 @@
 from ursina import *
 from entities import bunny
+from entities import predator
 from entities import food
 import random
 
@@ -8,9 +9,14 @@ app = Ursina()
 EditorCamera()
 bunny_population = []
 food_list = []
+predator_population=[]
 
 def GetNumBunnies():
     return wp.content[1].value
+
+
+def GetNumPredators():
+    return wp.content[5].value
 
 def GetFoodAmmount():
     return wp.content[3].value
@@ -18,6 +24,7 @@ def GetFoodAmmount():
 def StartSimulation():
     num_bunnies = GetNumBunnies()
     num_food = GetFoodAmmount()
+    num_predators = GetNumPredators()
     wp.close()
 
     for x in range(num_bunnies):
@@ -29,6 +36,15 @@ def StartSimulation():
         reproductive_urge = random.randrange(1, 10)
         new_bunny = bunny.bunny(x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge)
         bunny_population.append(new_bunny)
+
+    for x in range(num_predators):
+        x_pos = random.randrange(-10, 10)
+        y_pos = random.randrange(-10, 10)
+        hunger_drive = random.randrange(1, 10)
+        speed = random.randrange(1, 10)
+        new_predator = predator.predator(
+            x_pos, y_pos, hunger_drive, speed)
+        predator_population.append(new_predator)
 
     for x in range(num_food):
         x_pos = random.randrange(-10, 10)
@@ -43,7 +59,10 @@ content=(
     Slider(min=1, max=20, default=10, step=1, name='number_of_bunnies'),
     Text('Ammount of Food'),
     Slider(min=0, max=50, default=12, step=1, name='ammount_of_food'),
+    Text('Ammount of predators'),
+    Slider(min=1, max=20, default=10, step=1, name='number_of_predators'),
     Button(text='Start', color=color.azure, on_click=StartSimulation),
+    Text('Number of predators'),
     ),
 )
 wp.y = wp.panel.scale_y / 2 * wp.scale_y
