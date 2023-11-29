@@ -3,7 +3,7 @@ import random
 import math
 
 class bunny(Entity):
-    def __init__(self, x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge):
+    def __init__(self, index, x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge):
         super().__init__(
             #define Entity parameters here. Entity parameters can then be accessed with self.<Entity Parameter>
             model="models/rabbit.obj",
@@ -35,7 +35,7 @@ class bunny(Entity):
         #need to update hunger and reproductive urge levels and check to see if they are below the specified
         #threshold. If either are below the threshold, then make the bunny find food/available mate and update
         #levels accordingly. Use the target position parameter to make the bunny move to particular location
-        self.UpdateHungerLevel()
+        self.UpdateHungerLevel(bunny_population)
         self.UpdateReproductiveUrge()
 
         if self.hunger_level < self.hunger_threshhold:
@@ -92,10 +92,9 @@ class bunny(Entity):
         self.rotation_y = self.rotation_y + rotation_y
         self.rotation_x = self.rotation_x + rotation_x
 
-    def UpdateHungerLevel(self):
+    def UpdateHungerLevel(self, bunny_population):
         if self.hunger_level < 0:
-            self.DespawnBunny()
-            return
+           self.DespawnBunny(bunny_population)
 
         self.hunger_level -=  self.hunger_drive * 0.01
 
@@ -118,7 +117,7 @@ class bunny(Entity):
         return food_index
 
     def UpdateReproductiveUrge(self):
-        if self.horniness_level >= (self.reproductive_urge * 0.01):
+        if self.horniness_level >= (self.reproductive_urge * 0.005):
             self.horniness_level -= self.reproductive_urge * 0.01
         else:
             self.horniness_level = 0
@@ -130,7 +129,7 @@ class bunny(Entity):
         potential_mate = None
 
         for bunny in bunny_population:
-            if bunny != self and bunny.looking_for_mate:
+            if bunny != self and bunny.looking_for_mate and bunny.enabled:
                 distance = (bunny.position - self.position).length()
                 if distance < nearest_distance:
                     nearest_distance = distance
@@ -144,9 +143,9 @@ class bunny(Entity):
                 #TODO add call to reproductive function
                 pass
         
-    def DespawnBunny(self):
+    def DespawnBunny(self, bunny_population):
         self.disable()
-
+ 
     def ProduceOffspring(self, bunny_population):
         #TODO logic for producing more bunnies
         pass
