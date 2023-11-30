@@ -145,6 +145,9 @@ class bunny(Entity):
         
     def DespawnBunny(self, bunny_population):
         self.disable()
+
+    def DeleteFood(self):
+        self.disable()
  
     def ProduceOffspring(self, bunny_population):
         #TODO logic for producing more bunnies

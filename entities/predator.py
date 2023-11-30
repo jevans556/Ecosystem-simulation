@@ -19,7 +19,7 @@ class predator(Entity):
         # scale value used to determine how fast a bunny will get hungry
         self.hunger_drive = hunger_drive
         # threshold used to determine when bunny will start looking for food
-        self.hunger_threshhold = 30
+        self.hunger_threshhold = 100
         self.looking_for_food = False
         self.target_position = Vec3(self.rand_x, self.rand_y, self.rand_z)
         self.at_current_target = False
@@ -43,7 +43,6 @@ class predator(Entity):
             self.looking_for_food = True
             food_index = self.FindFood(food)
 
-        # Currently, bunnies will not search for a mate if they are starving. This is open to change
 
         self.MoveToLocation(self.target_position, self.speed)
         self.text.position = (self.scale_x, self.scale_y + 2)
@@ -55,10 +54,6 @@ class predator(Entity):
                     del food[food_index]
                     self.hunger_level = 100
                     self.looking_for_food = False
-
-            if self.looking_for_mate:
-                self.reproductive_urge = 100
-                self.looking_for_mate = False
 
             self.at_current_target = False
             self.GenerateRandomLocation()
@@ -110,32 +105,6 @@ class predator(Entity):
         # self.MoveToLocation(self.target_position, self.speed)
         return food_index
 
-    def UpdateReproductiveUrge(self):
-        if self.horniness_level >= (self.reproductive_urge * 0.01):
-            self.horniness_level -= self.reproductive_urge * 0.01
-        else:
-            self.horniness_level = 0
-
-        return
-
-    def FindMate(self, bunny_population):
-        nearest_distance = float('inf')
-        potential_mate = None
-
-        for bunny in bunny_population:
-            if bunny != self and bunny.looking_for_mate:
-                distance = (bunny.position - self.position).length()
-                if distance < nearest_distance:
-                    nearest_distance = distance
-                    potential_mate = bunny
-
-        # If we're going to calculate movement in DetermineAction()
-        # Then this needs to be changed to only return potential_mate.position
-        if potential_mate:
-            self.MoveToLocation(potential_mate.position, self.speed)
-            if nearest_distance < 1:
-                # TODO add call to reproductive function
-                pass
 
     def DespawnBunny(self):
         self.disable()

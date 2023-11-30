@@ -47,7 +47,7 @@ def StartSimulation():
         hunger_drive = random.randrange(1, 10)
         speed = random.randrange(1, 10)
         new_predator = predator.predator(
-            x_pos, y_pos, hunger_drive, speed)
+            x_pos, y_pos, hunger_drive, 10)
         predator_population.append(new_predator)
 
     for x in range(num_food):
@@ -75,6 +75,11 @@ def update():
     for bunny in bunny_population:
         bunny.DetermineAction(bunny_population, food_list)
         if bunny.enabled == True:
+            end_simulation = False
+
+    for predator in predator_population:
+        predator.DetermineAction(predator_population, bunny_population)
+        if predator.enabled == True:
             end_simulation = False
 
     if end_simulation and started:
