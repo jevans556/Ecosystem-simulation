@@ -7,11 +7,10 @@ class predator(Entity):
     def __init__(self, x_pos, z_pos, hunger_drive, speed):
         super().__init__(
             # define Entity parameters here. Entity parameters can then be accessed with self.<Entity Parameter>
-            model="models/dragon.obj",
-            color=color.red,
-            texture="textures/basic1.png",
+            model="models/fox.obj",
+            texture="textures/fox_textures/texture.png",
             position=(x_pos, 0, z_pos),
-            scale=0.5
+            scale=0.08
         )
         self.rand_x = random.randrange(-50, 50)
         self.rand_y = random.randrange(-50, 50)

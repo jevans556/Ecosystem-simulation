@@ -10,7 +10,7 @@ class bunny(Entity):
             color=color.brown,
             texture="textures/basic1.png",
             position=(x_pos, 0, z_pos),
-            scale = 0.025
+            scale = 0.02
         )
         self.rand_x = random.randrange(-50, 50)
         self.rand_y = random.randrange(-50, 50)
