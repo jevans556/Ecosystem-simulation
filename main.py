@@ -51,9 +51,9 @@ def StartSimulation():
         predator_population.append(new_predator)
 
     for x in range(num_food):
-        x_pos = random.randrange(-20, 20)
-        y_pos = random.randrange(-20, 20)
-        new_food = food.food(x_pos, y_pos)
+        x_pos = random.randrange(-50, 50)
+        z_pos = random.randrange(-50, 50)
+        new_food = food.food(x_pos, z_pos)
         food_list.append(new_food)
         
 wp = WindowPanel(

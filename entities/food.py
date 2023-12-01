@@ -2,10 +2,10 @@ from ursina import *
 import random
 
 class food(Entity):
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, z_pos):
         super().__init__(
             model="models/carrot.obj",
-            position=(x_pos, y_pos, 0),
+            position=(x_pos, 0, z_pos),
             scale=0.4,
             texture="textures/carrot_textures/Carrot_Texture.png",
             color=color.orange
@@ -17,5 +17,8 @@ class food(Entity):
     def GetYPosition(self):
         return self.y
 
+    def GetZPosition(self):
+        return self.z
+        
     def DeleteFood(self):
         self.disable()

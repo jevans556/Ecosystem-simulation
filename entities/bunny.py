@@ -3,13 +3,13 @@ import random
 import math
 
 class bunny(Entity):
-    def __init__(self, index, x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge):
+    def __init__(self, index, x_pos, z_pos, hunger_drive, speed, fertility, reproductive_urge):
         super().__init__(
             #define Entity parameters here. Entity parameters can then be accessed with self.<Entity Parameter>
             model="models/rabbit.obj",
             color=color.brown,
             texture="textures/basic1.png",
-            position=(x_pos, y_pos, 0),
+            position=(x_pos, 0, z_pos),
             scale = 0.025
         )
         self.rand_x = random.randrange(-50, 50)
@@ -18,7 +18,7 @@ class bunny(Entity):
         self.hunger_drive = hunger_drive # scale value used to determine how fast a bunny will get hungry
         self.hunger_threshhold = 30 # threshold used to determine when bunny will start looking for food
         self.looking_for_food = False
-        self.target_position = Vec3(self.rand_x, self.rand_y, self.rand_z)
+        self.target_position = Vec3(self.rand_x, 0 , self.rand_z)
         self.at_current_target = False
         self.hunger_level = 100
         self.speed = speed
@@ -73,9 +73,9 @@ class bunny(Entity):
 
     def GenerateRandomLocation(self):
         self.rand_x = random.randrange(-50, 50)
-        self.rand_y = random.randrange(-50, 50)
+        #self.rand_y = random.randrange(-50, 50)
         self.rand_z = random.randrange(-50, 50)
-        self.target_position = Vec3(self.rand_x, self.rand_y, self.rand_z)
+        self.target_position = Vec3(self.rand_x, 0, self.rand_z)
         
     def MoveToLocation(self, target, speed):
         self.look_at(target)
