@@ -27,6 +27,7 @@ class bunny(Entity):
         self.reproductive_threshold = 30 # threshold used to determine when bunny will start looking for mate
         self.horniness_level = 100
         self.looking_for_mate = False #bunnies will only reproduce with other bunnies who's looking for mate flag is set to True
+        self.potential_mate = None
         #need to fix bug related to text generation. Text needs to be above bunny's head
         self.text = Text(text="test", x=self.x, y=self.scale_y * 2, parent=self, color=color.red)
 
@@ -64,12 +65,14 @@ class bunny(Entity):
                     self.looking_for_food = False
 
             if self.looking_for_mate:
-                self.reproductive_urge = 100
-                self.looking_for_mate = False
+                if self.potential_mate:
+                    self.ProduceOffspring(bunny_population, self.potential_mate)
+                    self.horniness_level = 100
+                    self.looking_for_mate = False
 
             self.at_current_target = False
             self.GenerateRandomLocation()
-            self.MoveToLocation(self.target_position, 3)
+            self.MoveToLocation(self.target_position, self.speed)
 
     def GenerateRandomLocation(self):
         self.rand_x = random.randrange(-50, 50)
@@ -117,7 +120,7 @@ class bunny(Entity):
         return food_index
 
     def UpdateReproductiveUrge(self):
-        if self.horniness_level >= (self.reproductive_urge * 0.005):
+        if self.horniness_level >= (self.reproductive_urge * 0.01):
             self.horniness_level -= self.reproductive_urge * 0.01
         else:
             self.horniness_level = 0
@@ -126,22 +129,19 @@ class bunny(Entity):
 
     def FindMate(self, bunny_population):
         nearest_distance = float('inf')
-        potential_mate = None
+        self.potential_mate = None
 
         for bunny in bunny_population:
             if bunny != self and bunny.looking_for_mate and bunny.enabled:
                 distance = (bunny.position - self.position).length()
                 if distance < nearest_distance:
                     nearest_distance = distance
-                    potential_mate = bunny
+                    self.potential_mate = bunny
         
         #If we're going to calculate movement in DetermineAction()
         #Then this needs to be changed to only return potential_mate.position
-        if potential_mate:
-            self.MoveToLocation(potential_mate.position, self.speed)
-            if nearest_distance < 1:
-                #TODO add call to reproductive function
-                pass
+        if self.potential_mate:
+            self.target_position = self.potential_mate.position
         
     def DespawnBunny(self, bunny_population):
         self.disable()
@@ -149,9 +149,23 @@ class bunny(Entity):
     def DeleteFood(self):
         self.disable()
  
-    def ProduceOffspring(self, bunny_population):
-        #TODO logic for producing more bunnies
-        pass
+    def ProduceOffspring(self, bunny_population, partner):
+        offspring_hunger_drive = (self.hunger_drive + partner.hunger_drive) / 2
+        offspring_speed = (self.speed + partner.speed) / 2
+        offspring_fertility = (self.fertility + partner.fertility) / 2
+        offspring_reproductive_urge = (self.reproductive_urge + partner.reproductive_urge) / 2
+        
+        offspring = bunny(
+            index=len(bunny_population),
+            x_pos=self.x,
+            z_pos=self.z,
+            hunger_drive=offspring_hunger_drive,
+            speed=offspring_speed,
+            fertility=offspring_fertility,
+            reproductive_urge=offspring_reproductive_urge
+        )
+            
+        bunny_population.append(offspring)
 
     def AddText(self, text):
         #TODO fix bug related to adding text above the bunnies
