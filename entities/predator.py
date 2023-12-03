@@ -18,7 +18,7 @@ class predator(Entity):
         # scale value used to determine how fast a bunny will get hungry
         self.hunger_drive = hunger_drive
         # threshold used to determine when bunny will start looking for food
-        self.hunger_threshhold = 100
+        self.hunger_threshhold = 60
         self.looking_for_food = False
         self.target_position = Vec3(self.rand_x, 0, self.rand_z)
         self.at_current_target = False
@@ -36,7 +36,7 @@ class predator(Entity):
         # need to update hunger and reproductive urge levels and check to see if they are below the specified
         # threshold. If either are below the threshold, then make the bunny find food/available mate and update
         # levels accordingly. Use the target position parameter to make the bunny move to particular location
-        self.UpdateHungerLevel()
+        self.UpdateHungerLevel(food)
 
         if self.hunger_level < self.hunger_threshhold:
             self.looking_for_food = True
@@ -79,12 +79,14 @@ class predator(Entity):
         self.rotation_y = self.rotation_y + rotation_y
         self.rotation_x = self.rotation_x + rotation_x
 
-    def UpdateHungerLevel(self):
+    def UpdateHungerLevel(self,list):
         if self.hunger_level < 0:
             self.DespawnBunny()
             return
-
-        self.hunger_level -= self.hunger_drive * 0.01
+        hunger_multplier=.01
+        if len(list)>100 :
+            self.hunger_level=50
+        self.hunger_level -= self.hunger_drive * hunger_multplier
 
     def FindFood(self, food):
         nearest_distance = Vec3(100000, 100000, 100000)

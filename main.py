@@ -89,7 +89,7 @@ def StartSimulation():
         hunger_drive = random.randrange(1, 10)
         speed = random.randrange(1, 10)
         new_predator = predator.predator(
-            x_pos, y_pos, hunger_drive, 10)
+            x_pos, y_pos, hunger_drive, 25)
         predator_population.append(new_predator)
 
     for x in range(num_food):
