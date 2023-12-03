@@ -14,10 +14,11 @@ camera.position = (0, 30, 0)  # Adjust the height as needed
 terrain = Entity(model='plane', scale=(105, 1, 105), texture= 'textures/Grass2.jpg')
 
 # Make sure to set the model for lakes and forests
-big_lake = Entity(model='cube', scale=(30, 1, 30), position=(-20, 0, 29), texture='textures/water.jpeg')
-small_lake1 = Entity(model='cube', scale=(9, 1, 9), position=(-25, 0, -10), texture='textures/water.jpeg')
-small_lake2 = Entity(model='cube', scale=(11, 1, 11), position=(5, 0, -30), texture='textures/water.jpeg')
-small_lake3 = Entity(model='cube', scale=(14, 1, 9), position=(26, 0, 0), texture='textures/water.jpeg')
+big_lake = Entity(model='cube', collider='box', scale=(30, 1, 30), position=(-20, 0, 29), texture='textures/water.jpeg')
+small_lake1 = Entity(model='cube', collider='box', scale=(9, 1, 9), position=(-25, 0, -10), texture='textures/water.jpeg')
+small_lake2 = Entity(model='cube', collider='box', scale=(11, 1, 11), position=(5, 0, -30), texture='textures/water.jpeg')
+small_lake3 = Entity(model='cube', collider='box', scale=(14, 1, 9), position=(26, 0, 0), texture='textures/water.jpeg')
+
 
 dark_green = color.rgb(0, 0.5, 0)
 def create_forest(x1, x2, y1, y2):
@@ -123,6 +124,7 @@ def update():
         predator.DetermineAction(predator_population, bunny_population)
         if predator.enabled == True:
             end_simulation = False
+            
 
     if end_simulation and started:
         text = Text(text="All Bunnies Have Died :(", x=-0.5, y=0, color=color.red, scale = 3)

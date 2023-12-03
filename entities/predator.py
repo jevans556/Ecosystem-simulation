@@ -67,9 +67,15 @@ class predator(Entity):
     def MoveToLocation(self, target, speed):
         self.look_at(target)
         direction_vector = target - self.position
+        origin = self.world_position + (self.up*.5)
+        hit_info = raycast(origin, direction_vector, ignore=(
+            self,), distance=.5, debug=False)
         distance = direction_vector.length()
         direction_vector.normalize()
-        self.position += direction_vector * speed * time.dt
+        if not hit_info.hit:
+            self.position += direction_vector * speed * time.dt
+            
+        
 
         if distance < speed * time.dt:
             self.position = target
