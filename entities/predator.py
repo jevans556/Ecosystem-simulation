@@ -75,7 +75,8 @@ class predator(Entity):
         if not hit_info.hit:
             self.position += direction_vector * speed * time.dt
             
-        
+        else:
+            self.GenerateRandomLocation()
 
         if distance < speed * time.dt:
             self.position = target

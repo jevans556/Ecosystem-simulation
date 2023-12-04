@@ -91,6 +91,9 @@ class bunny(Entity):
         direction_vector.normalize()
         if not hit_info.hit:
             self.position += direction_vector * speed * time.dt
+        else:
+            #self.position += direction_vector *(-speed) * time.dt
+            self.GenerateRandomLocation()
 
         if distance < speed * time.dt:
             self.position = target
