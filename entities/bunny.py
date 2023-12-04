@@ -66,7 +66,7 @@ class bunny(Entity):
 
             if self.looking_for_mate:
                 if self.potential_mate:
-                    for x in range((int)(self.fertility)):
+                    for x in range((int)(self.fertility / 2)):
                         self.ProduceOffspring(bunny_population, self.potential_mate)
                     self.horniness_level = 100
                     self.looking_for_mate = False

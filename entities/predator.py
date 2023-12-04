@@ -49,8 +49,8 @@ class predator(Entity):
         if self.at_current_target:
             if self.looking_for_food:
                 if food:
-                    food[food_index].DeleteFood()
-                    del food[food_index]
+                    food[food_index].DespawnBunny(food)
+                    #del food[food_index]
                     self.hunger_level = 100
                     self.looking_for_food = False
 
@@ -72,9 +72,10 @@ class predator(Entity):
             self,), distance=.5, debug=False)
         distance = direction_vector.length()
         direction_vector.normalize()
+
         if not hit_info.hit:
             self.position += direction_vector * speed * time.dt
-            
+
         else:
             self.GenerateRandomLocation()
 

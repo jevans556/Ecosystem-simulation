@@ -6,6 +6,7 @@ import random
 
 app = Ursina()
 started = False
+Sky()
 
 camera = EditorCamera(orthographic=True)
 camera.rotation_x = 90  # Set the rotation to achieve top-down view
@@ -77,8 +78,8 @@ def StartSimulation():
         x_pos = random.randrange(-10,10)
         y_pos = random.randrange(-10, 10)
         hunger_drive = random.randrange(1, 10)
-        speed = random.randrange(1, 10)
-        fertility = random.randrange(1, 10)
+        speed = random.randrange(3, 20)
+        fertility = random.randrange(1, 5)
         reproductive_urge = random.randrange(1, 10)
         new_bunny = bunny.bunny(index, x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge)
         bunny_population.append(new_bunny)
@@ -121,10 +122,7 @@ def update():
             end_simulation = False
 
     for predator in predator_population:
-        predator.DetermineAction(predator_population, bunny_population)
-        if predator.enabled == True:
-            end_simulation = False
-            
+        predator.DetermineAction(predator_population, bunny_population)            
 
     if end_simulation and started:
         text = Text(text="All Bunnies Have Died :(", x=-0.5, y=0, color=color.red, scale = 3)
