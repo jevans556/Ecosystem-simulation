@@ -1,0 +1,5 @@
+
+entities/__pycache__/bunny.cpython-311.pyc
+entities/__pycache__/food.cpython-311.pyc
+entities/__pycache__/predator.cpython-311.pyc
+*.pyc
