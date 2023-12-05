@@ -25,17 +25,8 @@ class predator(Entity):
         self.hunger_level = 100
         self.speed = speed
         
-        
-        
-        # need to fix bug related to text generation. Text needs to be above bunny's head
-        self.text = Text(text="test", x=self.x, y=self.scale_y *
-                         2, parent=self, color=color.red)
 
     def DetermineAction(self, bunny_population, food=None):
-        # TODO main loop for determining next bunny action. Should probably be called in main game loop
-        # need to update hunger and reproductive urge levels and check to see if they are below the specified
-        # threshold. If either are below the threshold, then make the bunny find food/available mate and update
-        # levels accordingly. Use the target position parameter to make the bunny move to particular location
         self.UpdateHungerLevel(food)
 
         if self.hunger_level < self.hunger_threshhold:
@@ -44,13 +35,11 @@ class predator(Entity):
 
 
         self.MoveToLocation(self.target_position, self.speed)
-        self.text.position = (self.scale_x, self.scale_y + 2)
 
         if self.at_current_target:
             if self.looking_for_food:
                 if food:
                     food[food_index].DespawnBunny(food)
-                    #del food[food_index]
                     self.hunger_level = 100
                     self.looking_for_food = False
 
@@ -60,7 +49,6 @@ class predator(Entity):
 
     def GenerateRandomLocation(self):
         self.rand_x = random.randrange(-50, 50)
-        #self.rand_y = random.randrange(-50, 50)
         self.rand_z = random.randrange(-50, 50)
         self.target_position = Vec3(self.rand_x, 0, self.rand_z)
 
@@ -69,7 +57,7 @@ class predator(Entity):
         direction_vector = target - self.position
         origin = self.world_position + (self.up*.5)
         hit_info = raycast(origin, direction_vector, ignore=(
-            self,), distance=.5, debug=False)
+            self,), distance=.7, debug=False)
         distance = direction_vector.length()
         direction_vector.normalize()
 
@@ -111,18 +99,11 @@ class predator(Entity):
                 self.target_position = food.position
                 food_index = i
 
-        # self.MoveToLocation(self.target_position, self.speed)
         return food_index
 
 
     def DespawnBunny(self):
         self.disable()
-
-
-    def AddText(self, text):
-        # TODO fix bug related to adding text above the bunnies
-        self.text.y = self.scale_y * 2
-        self.text.text = text
 
     def BunnyToStr(self):
         print(f"x_pos:{self.x_pos} y_pos:{self.y_pos} scale:{self.scale} speed:{self.speed} ")

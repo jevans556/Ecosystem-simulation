@@ -28,14 +28,9 @@ class bunny(Entity):
         self.horniness_level = 100
         self.looking_for_mate = False #bunnies will only reproduce with other bunnies who's looking for mate flag is set to True
         self.potential_mate = None
-        #need to fix bug related to text generation. Text needs to be above bunny's head
-        self.text = Text(text="test", x=self.x, y=self.scale_y * 2, parent=self, color=color.red)
 
     def DetermineAction(self, bunny_population, food=None):
-        #TODO main loop for determining next bunny action. Should probably be called in main game loop
-        #need to update hunger and reproductive urge levels and check to see if they are below the specified
-        #threshold. If either are below the threshold, then make the bunny find food/available mate and update
-        #levels accordingly. Use the target position parameter to make the bunny move to particular location
+
         self.UpdateHungerLevel(bunny_population)
         self.UpdateReproductiveUrge()
 
@@ -54,7 +49,6 @@ class bunny(Entity):
             self.FindMate(bunny_population)
             
         self.MoveToLocation(self.target_position, self.speed)
-        self.text.position = (self.scale_x, self.scale_y + 2)
 
         if self.at_current_target:
             if self.looking_for_food:
@@ -77,7 +71,6 @@ class bunny(Entity):
 
     def GenerateRandomLocation(self):
         self.rand_x = random.randrange(-50, 50)
-        #self.rand_y = random.randrange(-50, 50)
         self.rand_z = random.randrange(-50, 50)
         self.target_position = Vec3(self.rand_x, 0, self.rand_z)
         
@@ -92,7 +85,6 @@ class bunny(Entity):
         if not hit_info.hit:
             self.position += direction_vector * speed * time.dt
         else:
-            #self.position += direction_vector *(-speed) * time.dt
             self.GenerateRandomLocation()
 
         if distance < speed * time.dt:
@@ -123,8 +115,6 @@ class bunny(Entity):
                 nearest_distance = current_distance
                 self.target_position = food.position
                 food_index = i
-
-        #self.MoveToLocation(self.target_position, self.speed)
         return food_index
 
     def UpdateReproductiveUrge(self):
@@ -153,9 +143,6 @@ class bunny(Entity):
         
     def DespawnBunny(self, bunny_population):
         self.disable()
-
-    def DeleteFood(self):
-        self.disable()
  
     def ProduceOffspring(self, bunny_population, partner):
         offspring_hunger_drive = (self.hunger_drive + partner.hunger_drive) / 2
@@ -174,11 +161,6 @@ class bunny(Entity):
         )
             
         bunny_population.append(offspring)
-
-    def AddText(self, text):
-        #TODO fix bug related to adding text above the bunnies
-        self.text.y = self.scale_y * 2
-        self.text.text = text
 
     def BunnyToStr(self):
         print(f"x_pos:{self.x_pos} y_pos:{self.y_pos} scale:{self.scale} speed:{self.speed} fertility:{self.fertility} reproductive_urge:{self.reproductive_urge}")

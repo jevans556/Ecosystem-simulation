@@ -32,10 +32,10 @@ camera.position = (0, 30, 0)  # Adjust the height as needed
 terrain = Entity(model='plane', scale=(105, 1, 105), texture= 'textures/Grass2.jpg')
 
 # Make sure to set the model for lakes and forests
-big_lake = Entity(model='cube', collider='box', scale=(30, 1, 30), position=(-20, 0, 29), texture='textures/water.jpeg')
-small_lake1 = Entity(model='cube', collider='box', scale=(9, 1, 9), position=(-25, 0, -10), texture='textures/water.jpeg')
-small_lake2 = Entity(model='cube', collider='box', scale=(11, 1, 11), position=(5, 0, -30), texture='textures/water.jpeg')
-small_lake3 = Entity(model='cube', collider='box', scale=(14, 1, 9), position=(26, 0, 0), texture='textures/water.jpeg')
+big_sand = Entity(model='cube', scale=(30, 1, 30), position=(-20, 0, 29), texture='textures/Sand2.jpg')
+small_sand1 = Entity(model='cube', scale=(9, 1, 9), position=(-25, 0, -10), texture='textures/Sand2.jpg')
+small_sand2 = Entity(model='cube', scale=(11, 1, 11), position=(5, 0, -30), texture='textures/Sand2.jpg')
+small_sand3 = Entity(model='cube', scale=(14, 1, 9), position=(26, 0, 0), texture='textures/Sand2.jpg')
 
 
 dark_green = color.rgb(0, 0.5, 0)
@@ -95,7 +95,7 @@ def StartSimulation():
         x_pos = random.randrange(-10,10)
         y_pos = random.randrange(-10, 10)
         hunger_drive = random.randrange(1, 10)
-        speed = random.randrange(3, 20)
+        speed = random.randrange(5, 40)
         fertility = random.randrange(1, 5)
         reproductive_urge = random.randrange(1, 10)
         new_bunny = bunny.bunny(index, x_pos, y_pos, hunger_drive, speed, fertility, reproductive_urge)
